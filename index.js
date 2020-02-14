@@ -19,6 +19,10 @@ app.get('/list', function (req, res) {
     res.send(myJSONstring);
 });
 
+app.get('/check', function (req, res) {
+    res.send('130');
+});
+
 app.get('/book/:id', function (req, res) {
     id=req.params['id'];
     res.contentType('application/json');
