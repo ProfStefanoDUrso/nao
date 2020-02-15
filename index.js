@@ -9,21 +9,27 @@ app.listen(process.env.PORT || 3000,() => {
     console.log('listening');
 });
 
-app.get('/', function (req, res) {
+app.all('/', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+   });
+
+app.get('/', function (req, res, next) {
   res.send('Hello NAO!');
 });
 
-app.get('/list', function (req, res) {
+app.get('/list', function (req, res, next) {
     res.contentType('application/json');
     myJSONstring = JSON.stringify(books);
     res.send(myJSONstring);
 });
 
-app.get('/check', function (req, res) {
+app.get('/check', function (req, res, next) {
     res.send('130');
 });
 
-app.get('/book/:id', function (req, res) {
+app.get('/book/:id', function (req, res, next) {
     id=req.params['id'];
     res.contentType('application/json');
     myJSONstring = JSON.stringify(books);
