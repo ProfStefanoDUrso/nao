@@ -4,32 +4,40 @@ const express = require('express');
 const app = express();
 const books = require('./books')
 
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+    if ('OPTIONS' == req.method) {
+      res.send(200);
+    }
+    else {
+      next();
+    }
+};
+
+app.use(allowCrossDomain);
 app.use(bodyParser.json());
 app.listen(process.env.PORT || 3000,() => {
     console.log('listening');
 });
 
-app.all('/', function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    next();
-   });
-
-app.get('/', function (req, res, next) {
+app.get('/', function (req, res) {
   res.send('Hello NAO!');
 });
 
-app.get('/list', function (req, res, next) {
+app.get('/list', function (req, res) {
     res.contentType('application/json');
     myJSONstring = JSON.stringify(books);
     res.send(myJSONstring);
 });
 
-app.get('/check', function (req, res, next) {
+app.get('/check', function (req, res) {
     res.send('130');
 });
 
-app.get('/book/:id', function (req, res, next) {
+app.get('/book/:id', function (req, res) {
     id=req.params['id'];
     res.contentType('application/json');
     myJSONstring = JSON.stringify(books);
