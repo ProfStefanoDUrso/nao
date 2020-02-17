@@ -60,8 +60,14 @@ app.get('/read/:id', async function (req, res) {
     res.send(book);
 });
 
-app.get('/check', function (req, res) {
-    res.send('130');
+app.get('/check', async function (req, res) {
+    //res.send('130');
+    var book=await crud.readReservedDB();
+    //console.log(book);
+    var objectValue = JSON.parse(book);
+    var _code=objectValue['code'];
+    console.log(_code);
+    res.send(_code.toString());    
 });
 
 app.get('/book/:id', async function (req, res) {
@@ -72,7 +78,7 @@ app.get('/book/:id', async function (req, res) {
     // var _books=myJSONstringP.books.filter(x=>x.code == id && x.available == 1);
     // res.send(_books);
     id=req.params['id'];
-    var book=await crud.updateAvailabilityDB(id,false);
+    var book=await crud.updateAvailabilityDB(id,false,true);
     console.log(book);
     res.contentType('application/json');
     res.send(book);
@@ -86,7 +92,7 @@ app.get('/return/:id', async function (req, res) {
     // var _books=myJSONstringP.books.filter(x=>x.code == id && x.available == 1);
     // res.send(_books);
     id=req.params['id'];
-    var book=await crud.updateAvailabilityDB(id,true);
+    var book=await crud.updateAvailabilityDB(id,true,false);
     console.log(book);
     res.contentType('application/json');
     res.send(book);

@@ -12,19 +12,22 @@ const createDB = () => {
         author: 'Oscar Wilde',
         title: 'Il ritratto di Dorian Gray',
         code: 130,
-        available: true});
+        available: true,
+        reserved: false});
  
     var book2 = new Book({ 
         author: 'Lev Tolstoj',
         title: 'La morte di Ivan Ilic',
         code: 170,
-        available: true});
+        available: true,
+        reserved: false});
  
     var book3 = new Book({ 
         author: 'Marco Montemagno',
         title: 'Lavorability',
         code: 68,
-        available: true});
+        available: true,
+        reserved: false});
 
     var books=[book1,book2,book3]
  
@@ -46,14 +49,19 @@ async function readDB(id) {
     return JSON.stringify(book);
 };
 
+async function readReservedDB() {
+    var book = await Book.findOne({reserved: true});
+    return JSON.stringify(book);
+};
+
 async function readAllDB() {
     var books = await Book.find();
     return JSON.stringify(books);
 };
 
-async function updateAvailabilityDB(id,availability) {
+async function updateAvailabilityDB(id,availability,_reserved) {
     const filter = { code: id };
-    const update = { available: availability };
+    const update = { available: availability, reserved: _reserved };
     var book = await Book.findOneAndUpdate(filter,update);
     return await readDB(id);
 };
@@ -62,6 +70,7 @@ module.exports = {
     createDB,    
     readDB,
     readAllDB,
+    readReservedDB,
     updateAvailabilityDB,
     deleteDB
 }
