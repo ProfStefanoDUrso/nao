@@ -9,15 +9,15 @@ const createDB = () => {
       });
     
     var book1 = new Book({ 
-        author: 'Oscar Wilde',
-        title: 'Il ritratto di Dorian Gray',
+        author: 'Massimo Sardi',
+        title: 'Il ritorno dell arcobaleno',
         code: 130,
         available: true,
         reserved: false});
  
     var book2 = new Book({ 
-        author: 'Lev Tolstoj',
-        title: 'La morte di Ivan Ilic',
+        author: 'Massimo Sardi',
+        title: 'L arcobaleno',
         code: 170,
         available: true,
         reserved: false});
